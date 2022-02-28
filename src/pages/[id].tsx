@@ -7,19 +7,11 @@ import { AnimeCharacters } from "@models/AnimeCharacters";
 import { Character } from "@models/Character";
 import { Episodes } from "@models/Episodes";
 
-import {
-  StarIcon as StarIconOutline,
-  HeartIcon as HeartIconOutline,
-  CheckIcon,
-} from "@heroicons/react/outline";
-import {
-  StarIcon as StarIconSolid,
-  HeartIcon as HeartIconSolid,
-} from "@heroicons/react/solid";
 import useRatedAndLiked from "@hooks/useRatedAndLiked";
 import EpisodeList from "@components/EpisodeList";
 import useEpisodesWatched from "@hooks/useEpisodesWatched";
 import CharacterCard from "@components/CharacterCard";
+import AnimeDetails from "@components/AnimeDetails";
 
 export default function SlugPage() {
   const router = useRouter();
@@ -153,60 +145,13 @@ export default function SlugPage() {
 
           <div className="md:flex items-start justify-between w-full md:space-x-8">
             <div className="lg:w-1/3 md:w-1/2 space-y-2 py-2">
-              <img
-                className="w-full"
-                src={animeDetails.attributes.posterImage.small}
-                alt={animeDetails.attributes.canonicalTitle}
+              <AnimeDetails
+                liked={liked}
+                rated={rated}
+                setRateOrLike={setRateOrLike}
+                animeId={id}
+                animeDetails={animeDetails}
               />
-
-              <div className="flex items-center space-x-3">
-                {rated.some((r) => r === id) ? (
-                  <StarIconSolid
-                    onClick={() => {
-                      setRateOrLike("rated", false);
-                    }}
-                    className="h-6 w-6 text-yellow-400 cursor-pointer"
-                  />
-                ) : (
-                  <StarIconOutline
-                    onClick={() => {
-                      setRateOrLike("rated", true);
-                    }}
-                    className="h-6 w-6 cursor-pointer"
-                  />
-                )}
-                <p>{animeDetails.attributes.averageRating}</p>
-              </div>
-
-              <div className="flex items-center space-x-3">
-                {liked.some((l) => l === id) ? (
-                  <HeartIconSolid
-                    onClick={() => {
-                      setRateOrLike("liked", false);
-                    }}
-                    className="h-6 w-6 text-red-600 cursor-pointer"
-                  />
-                ) : (
-                  <HeartIconOutline
-                    onClick={() => {
-                      setRateOrLike("liked", true);
-                    }}
-                    className="h-6 w-6 cursor-pointer"
-                  />
-                )}
-                <p>Rank #{animeDetails.attributes.ratingRank}</p>
-              </div>
-              <p>
-                Rated {animeDetails.attributes.ageRating}:{" "}
-                {animeDetails.attributes.ageRatingGuide}
-              </p>
-              <p>Aired on {animeDetails.attributes.startDate}</p>
-              <p>
-                {animeDetails.attributes.endDate
-                  ? `Ended on ${animeDetails.attributes.endDate}`
-                  : "Ongoing"}
-              </p>
-              <p>Type: {animeDetails.attributes.subtype}</p>
             </div>
 
             <div className="w-full">
